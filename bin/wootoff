@@ -25,7 +25,7 @@ import urllib
 from BeautifulSoup import BeautifulSoup
 
 
-__VERSION__ = "wootoff v0.0.3 - https://github.com/jk0/wootoff"
+__VERSION__ = "wootoff v0.0.4 - https://github.com/jk0/wootoff"
 
 
 def build_options():
@@ -85,8 +85,6 @@ def check_keyword(keyword, item_desc, item_url, prowl):
                     "application=wootoff&event=%s&description=%s" % (prowl,
                             item_desc, item_url))
 
-        sys.exit(0)
-
 
 def main():
     """Main loop."""
@@ -96,11 +94,21 @@ def main():
     refresh_int = options.refresh_interval
     prowl = options.prowl
 
+    # NOTE(jk0): We use this to keep track of the current item.
+    current_item = None
+
     try:
         while True:
             item_desc, item_url = get_wootoff_item()
             if not item_desc or not item_url:
                 continue
+
+            if current_item == item_desc:
+                # NOTE(jk0): If it's the same item, don't bother.
+                time.sleep(refresh_int)
+                continue
+            else:
+                current_item = item_desc
 
             check_keyword(keyword, item_desc, item_url, prowl)
 
