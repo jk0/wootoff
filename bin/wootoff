@@ -25,7 +25,7 @@ import urllib
 from BeautifulSoup import BeautifulSoup
 
 
-__VERSION__ = "wootoff v0.0.1 - https://github.com/jk0/wootoff"
+__VERSION__ = "wootoff v0.0.2 - https://github.com/jk0/wootoff"
 
 
 def build_options():
@@ -57,12 +57,20 @@ def fetch_url(url):
 def get_wootoff_item():
     """Get and return the current wootoff item."""
     response = fetch_url("http://www.woot.com")
-    soup = BeautifulSoup(response.read())
+
+    try:
+        soup = BeautifulSoup(response.read())
+    except AttributeError:
+        return (None, None)
+
     item_desc = soup.find("h2", {"class": "fn"})
     item_url = soup.find("a", {"id": ("ContentPlaceHolderLeadIn_ContentPlaceHo"
             "lderLeadIn_SaleControl_HyperLinkWantOne")})
 
-    return (item_desc.contents[0], item_url["href"])
+    try:
+        return (item_desc.contents[0], item_url["href"])
+    except KeyError:
+        return (None, None)
 
 
 def main():
@@ -79,6 +87,9 @@ def main():
     try:
         while True:
             item_desc, item_url = get_wootoff_item()
+            if not item_desc or not item_url:
+                time.sleep(refresh_int)
+                continue
 
             if keyword in [word.upper() for word in item_desc.split(" ")]:
                 alert = "say keyword '%s' found, loading in browser" % keyword
