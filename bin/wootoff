@@ -33,7 +33,7 @@ def build_options():
     parser = optparse.OptionParser(version=__VERSION__)
 
     parser.add_option("--keyword", help="watch for a specific keyword")
-    parser.add_option("--refresh_interval", default=30, type="int",
+    parser.add_option("--refresh_interval", default=60, type="int",
             help="refresh interval of the woot fetcher")
     parser.add_option("--verbose", action="store_true",
             help="show verbose output")
