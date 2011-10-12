@@ -17,7 +17,7 @@ import setuptools
 
 setuptools.setup(
     name="wootoff",
-    version="0.0.4",
+    version="0.0.5",
     author="Josh Kearney",
     author_email="josh@jk0.org",
     description="Monitor a wootoff.",

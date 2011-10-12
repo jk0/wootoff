@@ -25,7 +25,7 @@ import urllib
 from BeautifulSoup import BeautifulSoup
 
 
-__VERSION__ = "wootoff v0.0.4 - https://github.com/jk0/wootoff"
+__VERSION__ = "wootoff v0.0.5 - https://github.com/jk0/wootoff"
 
 
 def build_options():
@@ -77,13 +77,19 @@ def check_keyword(keyword, item_desc, item_url, prowl):
         print "Keyword Match: %s => %s" % (item_desc, item_url)
 
         subprocess.call(["open", item_url])
-        alert = "say keyword '%s' matched, opening browser" % keyword
+        alert = "say keyword '%s' matched '%s', opening browser" % (keyword,
+                item_desc)
         subprocess.call(alert.split(" "))
 
         if prowl:
-            fetch_url("http://prowlapp.com/publicapi/add?apikey=%s&"
-                    "application=wootoff&event=%s&description=%s" % (prowl,
-                            item_desc, item_url))
+            query = urllib.urlencode({"apikey": prowl, "priority": 2,
+                    "application": "wootoff", "event": item_desc,
+                    "description": item_url})
+            url = "http://prowlapp.com/publicapi/add?%s" % query
+
+            fetch_url(url)
+
+        return True
 
 
 def main():
@@ -110,9 +116,8 @@ def main():
             else:
                 current_item = item_desc
 
-            check_keyword(keyword, item_desc, item_url, prowl)
-
-            print "Current Item: %s => %s" % (item_desc, item_url)
+            if not check_keyword(keyword, item_desc, item_url, prowl):
+                print "Current Item: %s => %s" % (item_desc, item_url)
 
             time.sleep(refresh_int)
     except KeyboardInterrupt:
