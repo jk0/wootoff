@@ -17,7 +17,7 @@ import setuptools
 
 setuptools.setup(
     name="wootoff",
-    version="0.0.5",
+    version="0.0.6",
     author="Josh Kearney",
     author_email="josh@jk0.org",
     description="Monitor a wootoff.",
@@ -25,6 +25,7 @@ setuptools.setup(
     url="https://github.com/jk0/wootoff",
     install_requires=[
         "beautifulsoup==3.2.0",
+        "SocksiPy-branch"
     ],
     scripts=["bin/wootoff"],
     classifiers=[

@@ -3,6 +3,7 @@ wootoff - Monitor a wootoff.
 Core Requirements
 
     - BeautifulSoup
+    - SocksiPy-branch
 
 
 Installation
