@@ -22,12 +22,13 @@ import socket
 import socks
 import sys
 import time
+import urllib
 import urllib2
 
 from BeautifulSoup import BeautifulSoup
 
 
-__VERSION__ = "wootoff v0.0.6 - https://github.com/jk0/wootoff"
+__VERSION__ = "wootoff v0.0.7 - https://github.com/jk0/wootoff"
 
 
 def build_options():
