@@ -45,7 +45,7 @@ def build_options():
 
 
 def fetch_url(url, proxy=None):
-    """Fetch and return the object of then given URL."""
+    """Fetch and return the object of the given URL."""
     try:
         if proxy:
             host, port = proxy.split(":")
